@@ -1,0 +1,7 @@
+version: '3'
+services:
+  php-cli:
+    build: ./docker/php-cli
+    volumes:
+      - ./app:/app:delegated
+    working_dir: /app/
