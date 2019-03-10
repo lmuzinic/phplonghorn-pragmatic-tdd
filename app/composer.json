@@ -1,0 +1,23 @@
+{
+    "name": "lmuzinic/phplonghorn-pragmatic-tdd",
+    "authors": [
+        {
+            "name": "Luka Muzinic",
+            "email": "luka@muzinic.net"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "symfony/var-dumper": "^4.2"
+    },
+    "autoload": {
+        "psr-4": { "BallGame\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "BallGame\\Tests\\": "tests/" },
+        "files": [
+            "vendor/symfony/var-dumper/Resources/functions/dump.php"
+        ]
+    }
+}
