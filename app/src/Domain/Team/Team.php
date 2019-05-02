@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace BallGame\Domain\Team;
 
 
+use BallGame\Domain\Exception\TeamWithEmptyNameException;
+
 class Team
 {
     /**
@@ -19,6 +21,10 @@ class Team
 
     public static function create(string $name)
     {
+        if (empty($name)) {
+            throw new TeamWithEmptyNameException();
+        }
+
         return new self($name);
     }
 

@@ -6,6 +6,7 @@ namespace BallGame\Domain\League;
 
 
 use BallGame\Domain\Match\Match;
+use BallGame\Domain\RuleBook\RuleBookInterface;
 use BallGame\Domain\Team\Position;
 use BallGame\Infrastructure\MatchRepository;
 
@@ -26,14 +27,23 @@ class League
      */
     private $matchRepository;
 
-    public function __construct(MatchRepository $matchRepository)
+    /**
+     * @var RuleBookInterface
+     */
+    private $ruleBook;
+
+    public function __construct(
+        MatchRepository $matchRepository,
+        RuleBookInterface $ruleBook
+    )
     {
         $this->matchRepository = $matchRepository;
+        $this->ruleBook = $ruleBook;
     }
 
     public function record(\BallGame\Domain\Match\Match $match)
     {
-//        $this->matchRepository->save($match);
+        $this->matchRepository->save($match);
     }
 
     public function getSortedStandings()
@@ -55,19 +65,7 @@ class League
             }
         }
 
-        uasort($this->positions, function (Position $teamA, Position $teamB) {
-            if ($teamA->getPercentage() > $teamB->getPercentage()) {
-                return -1;
-            }
-
-            if ($teamB->getPercentage() > $teamA->getPercentage()) {
-                return 1;
-            }
-
-            if ($teamA->getPercentage() === $teamB->getPercentage()) {
-                return 0;
-            }
-        });
+        uasort($this->positions, [$this->ruleBook, 'decide']);
 
         $standings = [];
         foreach ($this->positions as $position) {

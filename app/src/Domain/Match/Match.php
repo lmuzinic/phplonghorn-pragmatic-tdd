@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BallGame\Domain\Match;
 
 
+use BallGame\Domain\Exception\MatchBetweenSameTeamException;
 use BallGame\Domain\Team\Team;
 
 class Match
@@ -71,6 +72,10 @@ class Match
 
     public static function create(Team $homeTeam, Team $awayTeam, int $homeTeamRuns, int $awayTeamRuns)
     {
+        if ($homeTeam->getName() === $awayTeam->getName()) {
+            throw new MatchBetweenSameTeamException();
+        }
+
         return new self($homeTeam, $awayTeam, $homeTeamRuns, $awayTeamRuns);
     }
 }
