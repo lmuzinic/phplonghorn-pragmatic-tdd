@@ -22,12 +22,12 @@ class Match
     /**
      * @var int
      */
-    private $homeTeamPoints;
+    private $homeTeamRuns;
 
     /**
      * @var int
      */
-    private $awayTeamPoints;
+    private $awayTeamRuns;
 
     /**
      * @return Team
@@ -48,29 +48,29 @@ class Match
     /**
      * @return int
      */
-    public function getHomeTeamPoints(): int
+    public function getHomeTeamRuns(): int
     {
-        return $this->homeTeamPoints;
+        return $this->homeTeamRuns;
     }
 
     /**
      * @return int
      */
-    public function getAwayTeamPoints(): int
+    public function getAwayTeamRuns(): int
     {
-        return $this->awayTeamPoints;
+        return $this->awayTeamRuns;
     }
 
-    private function __construct(Team $homeTeam, Team $awayTeam, int $homeTeamPoints, int $awayTeamPoints)
+    private function __construct(Team $homeTeam, Team $awayTeam, int $homeTeamRuns, int $awayTeamRuns)
     {
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
-        $this->homeTeamPoints = $homeTeamPoints;
-        $this->awayTeamPoints = $awayTeamPoints;
+        $this->homeTeamRuns = $homeTeamRuns;
+        $this->awayTeamRuns = $awayTeamRuns;
     }
 
-    public static function create(Team $homeTeam, Team $awayTeam, int $homeTeamPoints, int $awayTeamPoints)
+    public static function create(Team $homeTeam, Team $awayTeam, int $homeTeamRuns, int $awayTeamRuns)
     {
-        return new self($homeTeam, $awayTeam, $homeTeamPoints, $awayTeamPoints);
+        return new self($homeTeam, $awayTeam, $homeTeamRuns, $awayTeamRuns);
     }
 }
