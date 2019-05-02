@@ -33,7 +33,7 @@ class League
 
     public function record(\BallGame\Domain\Match\Match $match)
     {
-        $this->matchRepository->save($match);
+//        $this->matchRepository->save($match);
     }
 
     public function getSortedStandings()

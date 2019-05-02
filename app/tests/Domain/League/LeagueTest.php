@@ -9,6 +9,7 @@ use BallGame\Domain\League\League;
 use BallGame\Domain\Match\Match;
 use BallGame\Domain\Team\Team;
 use BallGame\Infrastructure\MatchRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LeagueTest extends TestCase
@@ -19,13 +20,19 @@ class LeagueTest extends TestCase
     private $league;
 
     /**
-     * @var MatchRepository
+     * @var MatchRepository|MockObject
      */
     private $matchRepository;
 
     public function setUp()
     {
-        $this->matchRepository = new MatchRepository();
+        $this->matchRepository = $this
+            ->getMockBuilder(MatchRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->matchRepository->expects($this->atLeastOnce())->method('save');
+        
         $this->league = new League($this->matchRepository);
     }
 
@@ -43,6 +50,8 @@ class LeagueTest extends TestCase
 
         $this->league->record($match);
 
+        $this->matchRepository->method('findAll')->willReturn([$match]);
+
         $sortedStandings = $this->league->getSortedStandings();
 
         $this->assertSame([
@@ -56,42 +65,48 @@ class LeagueTest extends TestCase
         $astros = Team::create('Houston Astros');
         $rangers = Team::create('Texas Rangers');
 
-        $match = Match::create(
+        $match1 = Match::create(
             $rangers,
             $astros,
             0,
             10
         );
 
-        $this->league->record($match);
+        $this->league->record($match1);
 
-        $match = Match::create(
+        $match2 = Match::create(
             $rangers,
             $astros,
             0,
             3
         );
 
-        $this->league->record($match);
+        $this->league->record($match2);
 
-        $match = Match::create(
+        $match3 = Match::create(
             $rangers,
             $astros,
             0,
             1
         );
 
-        $this->league->record($match);
+        $this->league->record($match3);
 
-        $match = Match::create(
+        $match4 = Match::create(
             $rangers,
             $astros,
             1,
             0
         );
 
-        $this->league->record($match);
+        $this->league->record($match4);
 
+        $this->matchRepository->method('findAll')->willReturn([
+            $match1,
+            $match2,
+            $match3,
+            $match4,
+        ]);
         $sortedStandings = $this->league->getSortedStandings();
 
         $this->assertSame([
