@@ -13,7 +13,7 @@ make test
 git clone git@github.com:lmuzinic/phplonghorn-pragmatic-tdd.git
 cd phplonghorn-pragmatic-tdd/app
 composer install
-vendor/bin/php
+vendor/bin/phpunit
 ```
      
 #### Verify that everything works
