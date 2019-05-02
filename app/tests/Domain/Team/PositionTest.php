@@ -23,7 +23,7 @@ class PositionTest extends TestCase
 
     public function testPositionWhenNoGamesWerePlayed()
     {
-        $this->assertSame('0.000', $this->position->getPercentage());
+        $this->assertSame(0.0, $this->position->getPercentage());
         $this->assertSame(0, $this->position->getWins());
         $this->assertSame(0, $this->position->getLoses());
     }
@@ -32,7 +32,7 @@ class PositionTest extends TestCase
     {
         $this->position->recordLoss();
 
-        $this->assertSame('0.000', $this->position->getPercentage());
+        $this->assertSame(0.0, $this->position->getPercentage());
         $this->assertSame(0, $this->position->getWins());
         $this->assertSame(1, $this->position->getLoses());
     }
@@ -41,7 +41,7 @@ class PositionTest extends TestCase
     {
         $this->position->recordWin();
 
-        $this->assertSame('1.000', $this->position->getPercentage());
+        $this->assertSame(1.0, $this->position->getPercentage());
         $this->assertSame(1, $this->position->getWins());
         $this->assertSame(0, $this->position->getLoses());
     }
@@ -51,7 +51,7 @@ class PositionTest extends TestCase
         $this->position->recordWin();
         $this->position->recordLoss();
 
-        $this->assertSame('0.500', $this->position->getPercentage());
+        $this->assertSame(0.5, $this->position->getPercentage());
         $this->assertSame(1, $this->position->getWins());
         $this->assertSame(1, $this->position->getLoses());
     }

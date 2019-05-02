@@ -55,14 +55,11 @@ class Position
 
     public function getPercentage()
     {
-        $percentage = 0;
         if (0 === $this->wins) {
-            return number_format($percentage, 3);
+            return 0.0;
         }
 
-        $percentage = $this->wins / ($this->wins + $this->loses);
-
-        return number_format($percentage, 3);
+        return (float)($this->wins / ($this->wins + $this->loses));
     }
 
     public function getTeam()

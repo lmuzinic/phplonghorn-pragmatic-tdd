@@ -8,10 +8,27 @@ namespace BallGame\Tests\Domain\League;
 use BallGame\Domain\League\League;
 use BallGame\Domain\Match\Match;
 use BallGame\Domain\Team\Team;
+use BallGame\Infrastructure\MatchRepository;
 use PHPUnit\Framework\TestCase;
 
 class LeagueTest extends TestCase
 {
+    /**
+     * @var League
+     */
+    private $league;
+
+    /**
+     * @var MatchRepository
+     */
+    private $matchRepository;
+
+    public function setUp()
+    {
+        $this->matchRepository = new MatchRepository();
+        $this->league = new League($this->matchRepository);
+    }
+
     public function testGetStandingsShouldReturnSortedLeagueStandings()
     {
         $astros = Team::create('Houston Astros');
@@ -24,11 +41,9 @@ class LeagueTest extends TestCase
             0
         );
 
-        $league = new League();
+        $this->league->record($match);
 
-        $league->record($match);
-
-        $sortedStandings = $league->getSortedStandings();
+        $sortedStandings = $this->league->getSortedStandings();
 
         $this->assertSame([
             ['Houston Astros', '1.000', 1, 0],
@@ -38,8 +53,6 @@ class LeagueTest extends TestCase
 
     public function testGetStandingsShouldReturnSortedLeagueStandingsWhenAwayTeamWinsInThreeGamesOutOfFour()
     {
-        $league = new League();
-
         $astros = Team::create('Houston Astros');
         $rangers = Team::create('Texas Rangers');
 
@@ -50,7 +63,7 @@ class LeagueTest extends TestCase
             10
         );
 
-        $league->record($match);
+        $this->league->record($match);
 
         $match = Match::create(
             $rangers,
@@ -59,7 +72,7 @@ class LeagueTest extends TestCase
             3
         );
 
-        $league->record($match);
+        $this->league->record($match);
 
         $match = Match::create(
             $rangers,
@@ -68,7 +81,7 @@ class LeagueTest extends TestCase
             1
         );
 
-        $league->record($match);
+        $this->league->record($match);
 
         $match = Match::create(
             $rangers,
@@ -77,9 +90,9 @@ class LeagueTest extends TestCase
             0
         );
 
-        $league->record($match);
+        $this->league->record($match);
 
-        $sortedStandings = $league->getSortedStandings();
+        $sortedStandings = $this->league->getSortedStandings();
 
         $this->assertSame([
             ['Houston Astros', '0.750', 3, 1],
